@@ -18,7 +18,7 @@ func InitWebdav(c *gin.Context) {
 			if err != nil {
 				lib.Log().Error("%v", err)
 			} else {
-				lib.Log().Info("Webdav %s: %s", r.Method, r.URL)
+				lib.Log().Info("Webdav Log： %s: %s", r.Method, r.URL)
 			}
 		},
 	}
