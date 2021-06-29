@@ -14,6 +14,7 @@ func Cors() gin.HandlerFunc {
 		c.Header("Access-Control-Allow-Methods", "POST,GET,OPTIONS,DELETE,PUT,PROPFIND")
 		c.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type")
 		c.Header("Access-Control-Allow-Credentials", "true")
+		//c.Header("WWW-Authenticate", "Basic realm=\"User Visible Realm\"")
 		if method == "OPTIONS" {
 			c.AbortWithStatus(http.StatusNoContent)
 		}
