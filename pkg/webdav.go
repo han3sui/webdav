@@ -1,7 +1,6 @@
 package pkg
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/net/webdav"
 	"net/http"
@@ -9,7 +8,6 @@ import (
 )
 
 func InitWebdav(c *gin.Context) {
-	fmt.Println()
 	fs := &webdav.Handler{
 		Prefix:     c.Request.URL.Path,
 		FileSystem: webdav.Dir("."),
