@@ -18,7 +18,7 @@ type AutoConfig struct {
 	} `toml:"User"`
 }
 
-var Config *viper.Viper
+var Config AutoConfig
 
 func init()  {
 	fileInfo, err := os.Stat("config.toml")
@@ -26,20 +26,19 @@ func init()  {
 		Log().Panic("未找到配置文件")
 		return
 	}
-	viper.SetConfigName("config")
-	viper.SetConfigType("toml")
-	viper.AddConfigPath("./")
-	err = viper.ReadInConfig()
+	config:=viper.New()
+	config.AddConfigPath("./")
+	config.SetConfigName("config")
+	config.SetConfigType("toml")
+	err = config.ReadInConfig()
 	if err != nil {
 		Log().Panic("加载配置文件失败: %s", err)
 	}
-	Config=viper.GetViper()
 	//直接反序列化为Struct
-	var conf AutoConfig
-	if err :=Config.Unmarshal(&conf);err !=nil{
+	if err :=config.Unmarshal(&Config);err !=nil{
 		Log().Panic("序列化配置文件失败: %s", err)
 	}
-	Log().Info("配置文件：",conf)
+	Log().Info("配置文件：",Config)
 }
 
 

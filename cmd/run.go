@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
 	"webdav/lib"
@@ -8,8 +9,11 @@ import (
 )
 
 func Run()  {
+	if !lib.Config.Server.Debug {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	s:=&http.Server{
-		Addr: ":10001",
+		Addr: lib.Config.Server.Addr,
 		Handler: routers.InitRouter(),
 		ReadTimeout: 5*time.Second,
 		WriteTimeout: 10*time.Second,
