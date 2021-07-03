@@ -17,8 +17,15 @@ func Auth() gin.HandlerFunc {
 			c.Writer.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
 			c.AbortWithStatus(http.StatusUnauthorized)
 		} else {
-			lib.Log().Info("用户名：%v，密码：%v", username, password)
-			c.Next()
+			for _, v := range lib.Config.User {
+				if v.Name == username && v.Password == password {
+					c.Set("user", v)
+					c.Next()
+				}
+			}
+			c.AbortWithStatus(http.StatusUnauthorized)
+			//lib.Log().Info("用户名：%v，密码：%v", username, password)
+
 		}
 	}
 }

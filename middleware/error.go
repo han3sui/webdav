@@ -55,6 +55,6 @@ func Recover() gin.HandlerFunc {
 
 func Logger() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		lib.Log().Info("%v %v %v", c.Writer.Status(), c.Request.Method, c.Request.RequestURI)
+		//lib.Log().Info("%v %v %v", c.Writer.Status(), c.Request.Method, c.Request.RequestURI)
 	}
 }

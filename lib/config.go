@@ -10,12 +10,14 @@ type AutoConfig struct {
 		Addr  string `toml:"addr"`
 		Debug bool   `toml:"debug"`
 	} `toml:"Server"`
-	User []struct {
-		Name     string   `toml:"name"`
-		Password string   `toml:"password"`
-		Auth     []string `toml:"auth,omitempty"`
-		Dir      []string `toml:"dir"`
-	} `toml:"User"`
+	User []UserInfo `toml:"User"`
+}
+
+type UserInfo struct {
+	Name     string   `toml:"name"`
+	Password string   `toml:"password"`
+	Auth     []string `toml:"auth,omitempty"`
+	Dir      []string `toml:"dir"`
 }
 
 var Config AutoConfig

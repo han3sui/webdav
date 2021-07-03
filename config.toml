@@ -9,7 +9,7 @@ debug = false
 name = "Nail"
 password= "ddd"
 auth = ["read","delete","edit"]
-dir = ["C:/"]
+dir = ["C:/Project","C:/v2rayN"]
 
 [[User]]
 name = "Nail"
