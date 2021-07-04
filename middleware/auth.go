@@ -1,14 +1,11 @@
 package middleware
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"webdav/lib"
-)
 
-//type LoginInfo struct {
-//	User string `form:''`
-//}
+	"github.com/gin-gonic/gin"
+)
 
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -17,15 +14,19 @@ func Auth() gin.HandlerFunc {
 			c.Writer.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
 			c.AbortWithStatus(http.StatusUnauthorized)
 		} else {
-			for _, v := range lib.Config.User {
-				if v.Name == username && v.Password == password {
+			v, ok := lib.UserMap[username]
+			if ok {
+				if v.Password == password {
 					c.Set("user", v)
 					c.Next()
+				} else {
+					lib.Log().Error("用户名密码错误，用户：%v，密码：%v", username, password)
+					c.AbortWithStatus(http.StatusUnauthorized)
 				}
+			} else {
+				lib.Log().Error("未找到该用户，用户：%v，密码：%v", username, password)
+				c.AbortWithStatus(http.StatusUnauthorized)
 			}
-			c.AbortWithStatus(http.StatusUnauthorized)
-			//lib.Log().Info("用户名：%v，密码：%v", username, password)
-
 		}
 	}
 }

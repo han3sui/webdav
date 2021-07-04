@@ -1,10 +1,11 @@
 package pkg
 
 import (
-	"github.com/gin-gonic/gin"
-	"golang.org/x/net/webdav"
 	"net/http"
 	"webdav/lib"
+
+	"github.com/gin-gonic/gin"
+	"golang.org/x/net/webdav"
 )
 
 func InitWebdav(c *gin.Context) {
@@ -15,7 +16,7 @@ func InitWebdav(c *gin.Context) {
 			lib.Log().Info("当前用户%v", value)
 			for _, v := range value.Dir {
 				fs := &webdav.Handler{
-					Prefix:     c.Request.URL.Path,
+					//Prefix:     c.Request.URL.Path,
 					FileSystem: webdav.Dir(v),
 					LockSystem: webdav.NewMemLS(),
 					Logger: func(r *http.Request, err error) {

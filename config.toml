@@ -12,9 +12,9 @@ auth = ["read","delete","edit"]
 dir = ["C:/Project","C:/v2rayN"]
 
 [[User]]
-name = "Nail"
+name = "Nail1"
 password= "ddd"
 auth = ["read","delete","edit"]
-dir = ["D:/","C:/"]
+dir = ["D:/","E:/"]
 
 

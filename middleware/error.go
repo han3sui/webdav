@@ -1,10 +1,11 @@
 package middleware
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
 	"webdav/lib"
+
+	"github.com/gin-gonic/gin"
 )
 
 type ErrorInfo struct {
@@ -55,6 +56,6 @@ func Recover() gin.HandlerFunc {
 
 func Logger() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		//lib.Log().Info("%v %v %v", c.Writer.Status(), c.Request.Method, c.Request.RequestURI)
+		lib.Log().Info("%v %v %v", c.Writer.Status(), c.Request.Method, c.Request.RequestURI)
 	}
 }

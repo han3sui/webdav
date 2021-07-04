@@ -1,10 +1,11 @@
 package routers
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"webdav/middleware"
 	"webdav/pkg"
+
+	"github.com/gin-gonic/gin"
 )
 
 func InitRouter() http.Handler {
