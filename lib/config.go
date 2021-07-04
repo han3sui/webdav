@@ -1,7 +1,10 @@
 package lib
 
 import (
+	"net/http"
 	"os"
+
+	"golang.org/x/net/webdav"
 
 	"github.com/spf13/viper"
 )
@@ -10,15 +13,17 @@ type AutoConfig struct {
 	Server struct {
 		Addr  string `toml:"addr"`
 		Debug bool   `toml:"debug"`
+		Route string `toml:"route"`
 	} `toml:"Server"`
 	User []UserInfo `toml:"User"`
 }
 
 type UserInfo struct {
-	Name     string   `toml:"name"`
-	Password string   `toml:"password"`
-	Auth     []string `toml:"auth,omitempty"`
-	Dir      []string `toml:"dir"`
+	Name     string `toml:"name"`
+	Password string `toml:"password"`
+	Readonly bool   `toml:"readonly"`
+	Dir      string `toml:"dir"`
+	Fs       *webdav.Handler
 }
 
 // UserMap 使用用户名作为key，生成map，用于后续查询
@@ -49,8 +54,20 @@ func init() {
 	for _, v := range Config.User {
 		_, ok := UserMap[v.Name]
 		if ok {
-			Log().Warning("存在重复的用户：%v", v.Name)
+			Log().Panic("存在重复的用户：%v", v.Name)
 		} else {
+			v.Fs = &webdav.Handler{
+				Prefix:     Config.Server.Route,
+				FileSystem: webdav.Dir(v.Dir),
+				LockSystem: webdav.NewMemLS(),
+				Logger: func(r *http.Request, err error) {
+					if err != nil {
+						Log().Error("【%v】%v", v.Name, err)
+					} else {
+						Log().Info("【%v】%v", r.Method, r.URL)
+					}
+				},
+			}
 			UserMap[v.Name] = v
 		}
 	}

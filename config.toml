@@ -3,18 +3,20 @@
 addr = ":10001"
 #运行模式
 debug = false
+#路由
+route = "/dav"
 
-#账户
+#账户数组
 [[User]]
 name = "Nail"
-password= "ddd"
-auth = ["read","delete","edit"]
-dir = ["C:/Project","C:/v2rayN"]
+password = "ddd"
+readonly = false
+dir = "D:/"
 
 [[User]]
 name = "Nail1"
-password= "ddd"
-auth = ["read","delete","edit"]
-dir = ["D:/","E:/"]
+password = "ddd"
+readonly = true
+dir = "D:/"
 
 
