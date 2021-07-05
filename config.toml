@@ -11,12 +11,12 @@ route = "/dav"
 name = "Nail"
 password = "ddd"
 readonly = false
-dir = "D:/"
+dir = "C:/"
 
 [[User]]
 name = "Nail1"
 password = "ddd"
 readonly = true
-dir = "D:/"
+dir = "C:/"
 
 

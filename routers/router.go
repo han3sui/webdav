@@ -28,7 +28,8 @@ func InitRouter() http.Handler {
 	v1 := r.Group(lib.Config.Server.Route)
 	v1.Use(middleware.Auth())
 	{
-		v1.Handle("PROPFIND", "/", pkg.InitWebdav)
+		v1.Handle("PROPFIND", "/*path", pkg.InitWebdav)
+		v1.Handle("PROPFIND","",pkg.InitWebdav)
 	}
 	return r
 }
