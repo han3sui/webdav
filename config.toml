@@ -8,13 +8,13 @@ route = "/dav"
 
 #账户数组
 [[User]]
-name = "Nail"
+name = "user1"
 password = "ddd"
 readonly = false
 dir = "C:/"
 
 [[User]]
-name = "Nail1"
+name = "user2"
 password = "ddd"
 readonly = true
 dir = "C:/"
