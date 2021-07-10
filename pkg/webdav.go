@@ -21,9 +21,9 @@ func InitWebdav(c *gin.Context) {
 				Logger: func(request *http.Request, err error) {
 					if err != nil {
 						lib.Log().Error("【%v】%v", value.Name, err)
-					} else {
-						lib.Log().Info("【%v】%v", request.Method, request.URL)
+						return
 					}
+					lib.Log().Info("【%v】%v %v", value.Name, request.Method, request.URL)
 				},
 			}
 			fs.ServeHTTP(c.Writer, c.Request)
