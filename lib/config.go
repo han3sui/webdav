@@ -1,7 +1,6 @@
 package lib
 
 import (
-	"net/http"
 	"os"
 
 	"golang.org/x/net/webdav"
@@ -56,18 +55,18 @@ func init() {
 		if ok {
 			Log().Panic("存在重复的用户：%v", v.Name)
 		} else {
-			v.Fs = &webdav.Handler{
-				Prefix:     Config.Server.Route,
-				FileSystem: webdav.Dir(v.Dir),
-				LockSystem: webdav.NewMemLS(),
-				Logger: func(r *http.Request, err error) {
-					if err != nil {
-						Log().Error("【%v】%v", v.Name, err)
-					} else {
-						Log().Info("【%v】%v", r.Method, r.URL)
-					}
-				},
-			}
+			//v.Fs = &webdav.Handler{
+			//	Prefix:     Config.Server.Route,
+			//	FileSystem: webdav.Dir(v.Dir),
+			//	LockSystem: webdav.NewMemLS(),
+			//	Logger: func(r *http.Request, err error) {
+			//		if err != nil {
+			//			Log().Error("【%v】%v", v.Name, err)
+			//		} else {
+			//			Log().Info("【%v】%v", r.Method, r.URL)
+			//		}
+			//	},
+			//}
 			UserMap[v.Name] = v
 		}
 	}

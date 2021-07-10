@@ -10,7 +10,7 @@ route = "/dav"
 [[User]]
 name = "user1"
 password = "ddd"
-readonly = false
+readonly = true
 dir = "C:/"
 
 [[User]]

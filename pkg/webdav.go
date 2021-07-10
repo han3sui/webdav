@@ -1,7 +1,10 @@
 package pkg
 
 import (
+	"net/http"
 	"webdav/lib"
+
+	"golang.org/x/net/webdav"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,7 +14,20 @@ func InitWebdav(c *gin.Context) {
 	if ok {
 		value, ok1 := user.(lib.UserInfo)
 		if ok1 {
-			value.Fs.ServeHTTP(c.Writer, c.Request)
+			fs := &webdav.Handler{
+				Prefix:     lib.Config.Server.Route,
+				FileSystem: webdav.Dir(value.Dir),
+				LockSystem: webdav.NewMemLS(),
+				Logger: func(request *http.Request, err error) {
+					if err != nil {
+						lib.Log().Error("【%v】%v", value.Name, err)
+					} else {
+						lib.Log().Info("【%v】%v", request.Method, request.URL)
+					}
+				},
+			}
+			fs.ServeHTTP(c.Writer, c.Request)
+			//value.Fs.ServeHTTP(c.Writer, c.Request)
 		}
 	} else {
 		lib.Log().Error("用户不存在：%v", user)
