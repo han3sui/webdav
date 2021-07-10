@@ -11,25 +11,27 @@ import (
 
 func InitWebdav(c *gin.Context) {
 	user, ok := c.Get("user")
-	if ok {
-		value, ok1 := user.(lib.UserInfo)
-		if ok1 {
-			fs := &webdav.Handler{
-				Prefix:     lib.Config.Server.Route,
-				FileSystem: webdav.Dir(value.Dir),
-				LockSystem: webdav.NewMemLS(),
-				Logger: func(request *http.Request, err error) {
-					if err != nil {
-						lib.Log().Error("【%v】%v", value.Name, err)
-						return
-					}
-					lib.Log().Info("【%v】%v %v", value.Name, request.Method, request.URL)
-				},
-			}
-			fs.ServeHTTP(c.Writer, c.Request)
-			//value.Fs.ServeHTTP(c.Writer, c.Request)
-		}
-	} else {
+	if !ok {
 		lib.Log().Error("用户不存在：%v", user)
+		return
 	}
+	value, ok := user.(lib.UserInfo)
+	if !ok {
+		lib.Log().Error("用户解析失败：%v", user)
+		return
+	}
+	fs := &webdav.Handler{
+		Prefix:     lib.Config.Server.Route,
+		FileSystem: webdav.Dir(value.Dir),
+		LockSystem: webdav.NewMemLS(),
+		Logger: func(request *http.Request, err error) {
+			if err != nil {
+				lib.Log().Error("【%v】%v", value.Name, err)
+				return
+			}
+			lib.Log().Info("【%v】%v %v", value.Name, request.Method, request.URL)
+		},
+	}
+	fs.ServeHTTP(c.Writer, c.Request)
+	//value.Fs.ServeHTTP(c.Writer, c.Request)
 }
