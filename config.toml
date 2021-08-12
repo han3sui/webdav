@@ -8,15 +8,9 @@ route = "/dav"
 
 #账户数组
 [[User]]
-name = "user1"
-password = "ddd"
-readonly = true
-dir = "C:/"
-
-[[User]]
-name = "user2"
-password = "ddd"
-readonly = true
-dir = "C:/"
+name = "han3sui"
+password = "gPSJG9dp3ornwY1j"
+readonly = false
+dir = "F:/"
 
 

@@ -1,0 +1,22 @@
+[Server]
+#监听地址
+addr = ":10001"
+#运行模式
+debug = false
+#路由
+route = "/dav"
+
+#账户数组
+[[User]]
+name = "user1"
+password = "ddd"
+readonly = true
+dir = "C:/"
+
+[[User]]
+name = "user2"
+password = "ddd"
+readonly = true
+dir = "C:/"
+
+
