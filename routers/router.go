@@ -28,13 +28,11 @@ func InitRouter() http.Handler {
 	v1 := r.Group(lib.Config.Server.Route)
 	v1.Use(middleware.Auth())
 	{
-		//v1.Handle("PROPFIND", "/*path", pkg.InitWebdav)
-		//v1.Handle("PROPFIND", "", pkg.InitWebdav)
-
-		v1.Any("/*path", pkg.InitWebdav)
-		v1.Any("", pkg.InitWebdav)
+		//v1.Any("/*path", pkg.InitWebdav)
+		//v1.Any("", pkg.InitWebdav)
+		v1.GET("/*path", pkg.ListDir)
 		v1.Handle("PROPFIND", "/*path", pkg.InitWebdav)
-		v1.Handle("PROPFIND", "", pkg.InitWebdav)
+		//v1.Handle("PROPFIND", "", pkg.InitWebdav)
 		v1.Handle("MKCOL", "/*path", pkg.InitWebdav)
 		v1.Handle("LOCK", "/*path", pkg.InitWebdav)
 		v1.Handle("UNLOCK", "/*path", pkg.InitWebdav)
