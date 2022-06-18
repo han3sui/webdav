@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"webdav/lib"
 
 	"github.com/gin-gonic/gin"
@@ -24,17 +25,6 @@ func InitWebdav(c *gin.Context) {
 	if c.Request.URL.RequestURI() == "/favicon.ico" {
 		return
 	}
-	dirBool, err := ListDir(c, value)
-	if err != nil {
-		return
-	}
-	if c.Request.Method == "GET" && dirBool {
-		return
-	}
-	Webdav(c, value)
-}
-
-func Webdav(c *gin.Context, value lib.UserInfo) {
 	fs := &webdav.Handler{
 		Prefix:     lib.Config.Server.Route,
 		FileSystem: webdav.Dir(value.Dir),
@@ -47,18 +37,27 @@ func Webdav(c *gin.Context, value lib.UserInfo) {
 			lib.Log().Info("【%v】%v %v", value.Name, request.Method, request.URL.Path)
 		},
 	}
+	if c.Request.Method == "GET" && ListDir(c, fs.FileSystem, value) {
+		return
+	}
 	fs.ServeHTTP(c.Writer, c.Request)
 }
 
-func ListDir(c *gin.Context, value lib.UserInfo) (bool, error) {
+func ListDir(c *gin.Context, fs webdav.FileSystem, value lib.UserInfo) bool {
 	path := value.Dir + c.Request.URL.Path
-	if lib.IsFile(path) {
-		return false, nil
+	f, err := fs.OpenFile(c, c.Request.URL.Path, os.O_RDONLY, 0)
+	if err != nil {
+		lib.Log().Error("打开文件失败：", err)
+		return false
+	}
+	defer f.Close()
+	if fi, _ := f.Stat(); fi != nil && !fi.IsDir() {
+		return false
 	}
 	files, err := ioutil.ReadDir(path)
 	if err != nil {
 		lib.Log().Error("目录读取失败：", err)
-		return false, err
+		return false
 	}
 	c.Writer.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w := c.Writer
@@ -73,5 +72,5 @@ func ListDir(c *gin.Context, value lib.UserInfo) (bool, error) {
 		}
 	}
 	fmt.Fprintf(w, "</pre>\n")
-	return true, nil
+	return true
 }

@@ -1,11 +1,12 @@
 package routers
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"webdav/lib"
 	"webdav/middleware"
 	"webdav/pkg"
+
+	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -27,17 +28,14 @@ func InitRouter() http.Handler {
 	v1 := r.Group(lib.Config.Server.Route)
 	v1.Use(middleware.Auth())
 	{
-		v1.Any("/*path", pkg.InitWebdav)
-		//v1.Any("", pkg.InitWebdav)
-		//v1.GET("/*path", pkg.ListDir)
-		//v1.Handle("PROPFIND", "/*path", pkg.InitWebdav)
-		//v1.Handle("PROPFIND", "", pkg.InitWebdav)
-		//v1.Handle("MKCOL", "/*path", pkg.InitWebdav)
-		//v1.Handle("LOCK", "/*path", pkg.InitWebdav)
-		//v1.Handle("UNLOCK", "/*path", pkg.InitWebdav)
-		//v1.Handle("PROPPATCH", "/*path", pkg.InitWebdav)
-		//v1.Handle("COPY", "/*path", pkg.InitWebdav)
-		//v1.Handle("MOVE", "/*path", pkg.InitWebdav)
+		v1.GET("/*path", pkg.InitWebdav)
+		v1.Handle("PROPFIND", "/*path", pkg.InitWebdav)
+		v1.Handle("MKCOL", "/*path", pkg.InitWebdav)
+		v1.Handle("LOCK", "/*path", pkg.InitWebdav)
+		v1.Handle("UNLOCK", "/*path", pkg.InitWebdav)
+		v1.Handle("PROPPATCH", "/*path", pkg.InitWebdav)
+		v1.Handle("COPY", "/*path", pkg.InitWebdav)
+		v1.Handle("MOVE", "/*path", pkg.InitWebdav)
 	}
 	return r
 }
