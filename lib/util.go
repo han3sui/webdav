@@ -21,8 +21,7 @@ func PathExists(path string) bool {
 	return !os.IsNotExist(err)
 }
 
-// 判断所给路径文件/文件夹是否存在
-
+// Exists 判断所给路径文件/文件夹是否存在
 func Exists(path string) bool {
 	_, err := os.Stat(path) //os.Stat获取文件信息
 	if err != nil {
@@ -35,8 +34,7 @@ func Exists(path string) bool {
 
 }
 
-// 判断所给路径是否为文件夹
-
+// IsDir 判断所给路径是否为文件夹
 func IsDir(path string) bool {
 	s, err := os.Stat(path)
 	if err != nil {
@@ -46,8 +44,7 @@ func IsDir(path string) bool {
 
 }
 
-// 判断所给路径是否为文件
-
+// IsFile 判断所给路径是否为文件
 func IsFile(path string) bool {
 	return !IsDir(path)
 
