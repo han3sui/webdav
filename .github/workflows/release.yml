@@ -13,7 +13,7 @@ jobs:
       - name: 设置Go版本
         uses: actions/setup-go@v3
         with:
-          go-version: 1.16
+          go-version: 1.22
 
       - name: 开始编译
         uses: goreleaser/goreleaser-action@v2
